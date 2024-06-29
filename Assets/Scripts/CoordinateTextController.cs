@@ -13,6 +13,7 @@ public class CoordinateTextController : MonoBehaviour
     private void Awake()
     {
         coordLable = GetComponent<TextMeshPro>();
+        DisplayCoordinate();
     }
 
     // Update is called once per frame
