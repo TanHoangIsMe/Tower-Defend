@@ -2,17 +2,24 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [ExecuteAlways]
 public class CoordinateTextController : MonoBehaviour
 {
+    [SerializeField] Color defaultColor = Color.white;
+    [SerializeField] Color blockedColor = Color.gray;
+
     TextMeshPro coordLable;
     Vector2Int coordinate = new Vector2Int();
+    Waypoint waypoint;
 
     private void Awake()
     {
+        waypoint = GetComponentInParent<Waypoint>();
         coordLable = GetComponent<TextMeshPro>();
+        coordLable.enabled = false;
         DisplayCoordinate();
     }
 
@@ -23,7 +30,29 @@ public class CoordinateTextController : MonoBehaviour
         {
             DisplayCoordinate();
             UpdateObjectName();
-        }    
+        }
+       UpdateColor();
+       ControlLable();
+    }
+
+    private void ControlLable()
+    {
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            coordLable.enabled = !coordLable.IsActive();
+        }
+    }
+
+    private void UpdateColor()
+    {
+        if (waypoint.IsPlaceable == true)
+        { 
+            coordLable.color = defaultColor;
+        }
+        else
+        {
+            coordLable.color = blockedColor;
+        }
     }
 
     private void DisplayCoordinate()
