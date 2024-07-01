@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class EnemyMover : MonoBehaviour
 {
@@ -10,6 +12,7 @@ public class EnemyMover : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        FindThePath();
         StartCoroutine(MoveOnPath());
     }
 
@@ -19,8 +22,19 @@ public class EnemyMover : MonoBehaviour
         
     }
 
-    private IEnumerator MoveOnPath()
+    private void FindThePath()
+    {
+        GameObject[] waypoints = GameObject.FindGameObjectsWithTag("Path");
+        SortArray(waypoints);
+        foreach (GameObject waypoint in waypoints)
+        {
+            path.Add(waypoint.GetComponent<Waypoint>());
+        }
 
+        transform.position = waypoints[0].transform.position;
+    }
+
+    private IEnumerator MoveOnPath()
     {
         foreach (Waypoint waypoint in path)
         {
@@ -36,6 +50,43 @@ public class EnemyMover : MonoBehaviour
                 transform.position = Vector3.Lerp(startPosition, endPosition, travelPercent);
                 yield return new WaitForEndOfFrame();
             }          
+        }
+        Destroy(gameObject);
+    }
+    
+    private void SortArray(GameObject[] waypoints)
+    {
+        GameObject waypoint;
+        int z = 0;
+        for (int i = 0;i < waypoints.Length; i++)
+        {
+            z++;
+            for (int j = 0; j < waypoints.Length - z; j++)
+            {
+                float firstCompareXValue = waypoints[i].transform.position.x
+                    / UnityEditor.EditorSnapSettings.move.x;
+                float secondCompareXValue = waypoints[j + z].transform.position.x
+                    / UnityEditor.EditorSnapSettings.move.x;
+                float firstCompareZValue = waypoints[i].transform.position.z
+                    / UnityEditor.EditorSnapSettings.move.z;
+                float secondCompareZValue = waypoints[j + z].transform.position.z
+                    / UnityEditor.EditorSnapSettings.move.z;
+                if (firstCompareXValue > secondCompareXValue)
+                {
+                    waypoint = waypoints[i];
+                    waypoints[i] = waypoints[j + z];
+                    waypoints[j + z] = waypoint;
+                }
+                else if (firstCompareXValue == secondCompareXValue)
+                {
+                    if (firstCompareZValue > secondCompareZValue)
+                    {
+                        waypoint = waypoints[i];
+                        waypoints[i] = waypoints[j + z];
+                        waypoints[j + z] = waypoint;
+                    }                  
+                }
+            }
         }
     }
 }
