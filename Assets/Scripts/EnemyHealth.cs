@@ -7,7 +7,7 @@ public class EnemyHealth : MonoBehaviour
     [SerializeField] int maxHitPoint = 5;
     private int currentHitPoint;
     // Start is called before the first frame update
-    void Start()
+    void OnEnable()
     {
         currentHitPoint = maxHitPoint;
     }
@@ -17,13 +17,14 @@ public class EnemyHealth : MonoBehaviour
     {
         if (currentHitPoint < 0) 
         {
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
     }
 
     private void OnParticleCollision(GameObject other)
     {
         currentHitPoint--;
-        if (currentHitPoint < 0) Destroy(gameObject);
+        if (currentHitPoint < 0)
+            gameObject.SetActive(false);
     }
 }
