@@ -20,12 +20,16 @@ public class TargetLock : MonoBehaviour
 
     private void FocusOnEnemy()
     {
-        float enemyDistance = Vector3.Distance(transform.position, target.position);
-        weapon.LookAt(target);
-        if (enemyDistance > range)
-            Attack(false);
+        if (target == null) Attack(false); // if no enemy exist on map -> disable all tower attack action
         else
-            Attack(true);
+        {
+            float enemyDistance = Vector3.Distance(transform.position, target.position);
+            weapon.LookAt(target);
+            if (enemyDistance > range)
+                Attack(false);
+            else
+                Attack(true);
+        }
     }
 
     private void FindClosestEnemy()
