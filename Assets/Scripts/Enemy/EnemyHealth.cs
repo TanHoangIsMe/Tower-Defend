@@ -2,11 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Enemy))]
 public class EnemyHealth : MonoBehaviour
 {
-    [SerializeField] int maxHitPoint = 5;
-    [SerializeField] int currentHitPoint = 0;
+    [SerializeField] int maxHitPoint = 2;
+    [Tooltip("Add enemy more health based on level difficulty")]
+    [SerializeField] int difficultyLevel = 1;
 
+    int currentHitPoint = 0;
     Enemy enemy;
 
     // Start is called before the first frame update
@@ -35,6 +38,7 @@ public class EnemyHealth : MonoBehaviour
         if (currentHitPoint < 0)
         {
             gameObject.SetActive(false);
+            maxHitPoint += difficultyLevel;
             enemy.RewardGold();
         }
     }
