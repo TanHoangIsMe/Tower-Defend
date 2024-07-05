@@ -71,8 +71,10 @@ public class CoordinateTextController : MonoBehaviour
 
     private void DisplayCoordinate()
     {
-        coordinate.x = (int)Math.Round(transform.parent.position.x / UnityEditor.EditorSnapSettings.move.x);
-        coordinate.y = (int)Math.Round(transform.parent.position.z / UnityEditor.EditorSnapSettings.move.z);
+        if(gridManager == null) { return; }
+
+        coordinate.x = (int)Math.Round(transform.parent.position.x / gridManager.UnityGridSize);
+        coordinate.y = (int)Math.Round(transform.parent.position.z / gridManager.UnityGridSize);
         coordLable.text = coordinate.x + "," + coordinate.y;
     }
 

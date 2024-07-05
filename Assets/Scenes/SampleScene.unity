@@ -324,6 +324,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8194348070458831968, guid: 9ebb43e26e3fe8e4da96ac5bd88cdf3c, type: 3}
+      propertyPath: m_text
+      value: 4,0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -541,7 +545,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8194348070458831968, guid: 9ebb43e26e3fe8e4da96ac5bd88cdf3c, type: 3}
       propertyPath: m_text
-      value: 2,2
+      value: 4,4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -614,7 +618,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8194348070458831968, guid: 9ebb43e26e3fe8e4da96ac5bd88cdf3c, type: 3}
       propertyPath: m_text
-      value: 0,2
+      value: 4,2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -956,7 +960,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8194348070458831968, guid: 9ebb43e26e3fe8e4da96ac5bd88cdf3c, type: 3}
       propertyPath: m_text
-      value: 1,0
+      value: 3,4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1198,7 +1202,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8194348070458831968, guid: 9ebb43e26e3fe8e4da96ac5bd88cdf3c, type: 3}
       propertyPath: m_text
-      value: 2,0
+      value: 5,0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1551,7 +1555,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8194348070458831968, guid: 9ebb43e26e3fe8e4da96ac5bd88cdf3c, type: 3}
       propertyPath: m_text
-      value: 1,2
+      value: 1,4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1697,7 +1701,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8194348070458831968, guid: 9ebb43e26e3fe8e4da96ac5bd88cdf3c, type: 3}
       propertyPath: m_text
-      value: 3,2
+      value: 5,4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1767,7 +1771,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1793234722331047397, guid: 9ebb43e26e3fe8e4da96ac5bd88cdf3c, type: 3}
       propertyPath: exploredColor.r
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6991667328874320095, guid: 9ebb43e26e3fe8e4da96ac5bd88cdf3c, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -1888,7 +1892,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8194348070458831968, guid: 9ebb43e26e3fe8e4da96ac5bd88cdf3c, type: 3}
       propertyPath: m_text
-      value: 1,3
+      value: 0,4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2149,7 +2153,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8194348070458831968, guid: 9ebb43e26e3fe8e4da96ac5bd88cdf3c, type: 3}
       propertyPath: m_text
-      value: 0,1
+      value: 4,1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2266,7 +2270,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1657208fbe0cab45a518a5b0a0b65e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridSize: {x: 5, y: 5}
+  gridSize: {x: 10, y: 10}
+  unityGridSize: 10
 --- !u!4 &1891596969
 Transform:
   m_ObjectHideFlags: 0
@@ -2425,7 +2430,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 5040643765344069697, guid: b940df629b09f434dbb9fd487257db6c, type: 3}
-  poolSize: 5
+  poolSize: 0
   spawnTime: 2
 --- !u!4 &1965645520
 Transform:
@@ -2455,7 +2460,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startCoordinate: {x: 0, y: 0}
-  endCoordinate: {x: 4, y: 3}
+  endCoordinate: {x: 5, y: 0}
 --- !u!1 &1979244188
 GameObject:
   m_ObjectHideFlags: 0
@@ -2567,7 +2572,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8194348070458831968, guid: 9ebb43e26e3fe8e4da96ac5bd88cdf3c, type: 3}
       propertyPath: m_text
-      value: 2,3
+      value: 5,2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2713,7 +2718,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8194348070458831968, guid: 9ebb43e26e3fe8e4da96ac5bd88cdf3c, type: 3}
       propertyPath: m_text
-      value: 1,1
+      value: 2,4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2859,7 +2864,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8194348070458831968, guid: 9ebb43e26e3fe8e4da96ac5bd88cdf3c, type: 3}
       propertyPath: m_text
-      value: 2,1
+      value: 5,1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
