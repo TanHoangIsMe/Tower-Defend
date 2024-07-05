@@ -1,23 +1,24 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 
 [ExecuteAlways]
+[RequireComponent(typeof(TextMeshPro))]
 public class CoordinateTextController : MonoBehaviour
 {
     [SerializeField] Color defaultColor = Color.white;
     [SerializeField] Color blockedColor = Color.gray;
+    [SerializeField] Color exploredColor = Color.red;
+    [SerializeField] Color pathColor = Color.yellow;
 
     TextMeshPro coordLable;
     Vector2Int coordinate = new Vector2Int();
-    Waypoint waypoint;
+
+    GridManager gridManager;
 
     private void Awake()
     {
-        waypoint = GetComponentInParent<Waypoint>();
+        gridManager = FindObjectOfType<GridManager>(); 
         coordLable = GetComponent<TextMeshPro>();
         coordLable.enabled = false;
         DisplayCoordinate();
@@ -45,13 +46,26 @@ public class CoordinateTextController : MonoBehaviour
 
     private void UpdateColor()
     {
-        if (waypoint.IsPlaceable == true)
-        { 
-            coordLable.color = defaultColor;
+        if (gridManager == null) { return; }
+
+        Node node = gridManager.GetNode(coordinate);
+        if(node == null) {return; }
+
+        if (!node.isWalkable)
+        {
+            coordLable.color = blockedColor;
+        }
+        else if(node.isPath)
+        {
+            coordLable.color = pathColor;   
+        }
+        else if (node.isExplored)
+        {
+            coordLable.color = exploredColor;
         }
         else
         {
-            coordLable.color = blockedColor;
+            coordLable.color = defaultColor;
         }
     }
 
