@@ -28,6 +28,10 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: -2432090755550338912, guid: e618ab8e55a3ed942a408f4d1b7f896e, type: 3}
+    - target: {fileID: 6991667328874320095, guid: 9ebb43e26e3fe8e4da96ac5bd88cdf3c, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2180264, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
     - target: {fileID: 7248020921452908114, guid: 9ebb43e26e3fe8e4da96ac5bd88cdf3c, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
@@ -70,6 +74,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7248020921452908114, guid: 9ebb43e26e3fe8e4da96ac5bd88cdf3c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7422902962117221097, guid: 9ebb43e26e3fe8e4da96ac5bd88cdf3c, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: -8469494145858465668, guid: af50c4e21f0e9b9419ff00e3c39e7711, type: 3}
+    - target: {fileID: 8194348070458831968, guid: 9ebb43e26e3fe8e4da96ac5bd88cdf3c, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
