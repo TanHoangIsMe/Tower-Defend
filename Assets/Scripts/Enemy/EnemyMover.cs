@@ -11,6 +11,8 @@ public class EnemyMover : MonoBehaviour
     [SerializeField] [Range(0f,5f)] float speed = 1f;
 
     Enemy enemy;
+    bool isLeft;
+    public bool IsLeft { set { isLeft = value; } } // choose which path enemy go
 
     // Start is called before the first frame update
     private void Start()
@@ -31,13 +33,19 @@ public class EnemyMover : MonoBehaviour
 
     private void FindThePath()
     {
-        GameObject parent = GameObject.FindGameObjectWithTag("Path");
+        GameObject parent;
+
+        if (isLeft)
+            parent = GameObject.FindGameObjectWithTag("PathLeft");
+        else
+            parent = GameObject.FindGameObjectWithTag("PathRight");
 
         foreach (Transform child in parent.transform)
         {
             Tile tile = child.GetComponent<Tile>();
             path.Add(tile.GetComponent<Tile>());
         }
+
         ReturnToStartPosition();
     }
 

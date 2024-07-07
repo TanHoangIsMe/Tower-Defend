@@ -6,24 +6,41 @@ using UnityEngine;
 public class ObjectPool : MonoBehaviour
 {
     [SerializeField] GameObject enemyPrefab;
-    [SerializeField] [Range(0,50)] int poolSize = 5;
+    [SerializeField] [Range(0,50)] int leftPoolSize = 5;
+    [SerializeField][Range(0, 50)] int rightPoolSize = 5;
     [SerializeField] [Range(0.1f,20f)] float spawnTime = 1.0f;
 
-    GameObject[] pool;
+    GameObject[] poolLeft;
+    GameObject[] poolRight;
+
+    Transform firstTileLeft;
+    Transform firstTileRight;
 
     private void Awake()
-    {
+    {       
         PopulatePool();
     }
 
     private void PopulatePool()
     {
-        pool = new GameObject[poolSize];
+        firstTileLeft = GameObject.FindWithTag("PathLeft").transform.GetChild(0);
+        firstTileRight = GameObject.FindWithTag("PathRight").transform.GetChild(0);
 
-        for (int i = 0; i < poolSize; i++) 
+        poolLeft = new GameObject[leftPoolSize];
+        poolRight = new GameObject[rightPoolSize];
+
+        for (int i = 0; i < leftPoolSize; i++) 
         {
-            pool[i] = Instantiate(enemyPrefab, transform);
-            pool[i].SetActive(false);
+            poolLeft[i] = Instantiate(enemyPrefab, firstTileLeft);
+            poolLeft[i].GetComponent<EnemyMover>().IsLeft = true;
+            poolLeft[i].SetActive(false);
+        }
+
+        for (int i = 0; i < rightPoolSize; i++)
+        {
+            poolRight[i] = Instantiate(enemyPrefab, firstTileRight);
+            poolRight[i].GetComponent<EnemyMover>().IsLeft = false;
+            poolRight[i].SetActive(false);
         }
     }
 
@@ -31,12 +48,6 @@ public class ObjectPool : MonoBehaviour
     void Start()
     {
         StartCoroutine(SpawnEnemy());
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     private IEnumerator SpawnEnemy() 
@@ -50,11 +61,20 @@ public class ObjectPool : MonoBehaviour
 
     private void EnableEnemy()
     {
-        for (int i = 0;i < poolSize;i++)
+        for (int i = 0;i < leftPoolSize;i++)
         {
-            if (pool[i].activeInHierarchy == false)
+            if (poolLeft[i].activeInHierarchy == false)
             {
-                pool[i].SetActive(true);
+                poolLeft[i].SetActive(true);
+                return;
+            }
+        }
+
+        for (int i = 0; i < rightPoolSize; i++)
+        {
+            if (poolRight[i].activeInHierarchy == false)
+            {
+                poolRight[i].SetActive(true);
                 return;
             }
         }
