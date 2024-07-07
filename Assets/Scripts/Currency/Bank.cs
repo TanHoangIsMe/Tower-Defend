@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 
 public class Bank : MonoBehaviour
 {
-    [SerializeField] int startBalance = 150;
+    [SerializeField] int startBalance = 250;
     [SerializeField] int currentBalance;
     [SerializeField] TextMeshProUGUI balanceText;
     public int CurrentBalance { get { return currentBalance; } }
@@ -25,17 +25,6 @@ public class Bank : MonoBehaviour
     {
         currentBalance -= Mathf.Abs(amount);
         UpdateBalanceText();
-
-        if (currentBalance < 0)
-        {
-            ReloadScene();
-        }
-    }
-
-    private void ReloadScene()
-    {
-        int currentScene = SceneManager.GetActiveScene().buildIndex;
-        SceneManager.LoadScene(currentScene);
     }
 
     void UpdateBalanceText()

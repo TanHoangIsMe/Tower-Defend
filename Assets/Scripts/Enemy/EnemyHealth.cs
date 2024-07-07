@@ -7,7 +7,7 @@ public class EnemyHealth : MonoBehaviour
 {
     [SerializeField] int maxHitPoint = 2;
     [Tooltip("Add enemy more health based on level difficulty")]
-    [SerializeField] int difficultyLevel = 1;
+    [SerializeField] int difficultyLevel = 2;
 
     int currentHitPoint = 0;
     Enemy enemy;

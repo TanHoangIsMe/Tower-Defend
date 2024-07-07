@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] int goldReward = 25;
-    [SerializeField] int goldPenalty = 15;
+    [SerializeField] int goldReward = 5;
 
     Bank bank;
 
@@ -19,12 +18,6 @@ public class Enemy : MonoBehaviour
     {
         if(bank == null) return;
         bank.Deposit(goldReward);
-    }
-
-    public void StealGold()
-    {
-        if (bank == null) return;
-        bank.Withdraw(goldPenalty);
     }
 }
 

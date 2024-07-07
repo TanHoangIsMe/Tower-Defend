@@ -1,22 +1,24 @@
 using System;
-using TMPro;
 using UnityEngine;
+using TMPro;
 
 [ExecuteAlways]
 [RequireComponent(typeof(TextMeshPro))]
-public class CoordinateTextController : MonoBehaviour
+public class CoordinateTextController2 : MonoBehaviour
 {
     [SerializeField] Color defaultColor = Color.white;
     [SerializeField] Color blockedColor = Color.gray;
+    [SerializeField] Color exploredColor = Color.red;
+    [SerializeField] Color pathColor = Color.yellow;
 
     TextMeshPro coordLable;
     Vector2Int coordinate = new Vector2Int();
 
-    Tile tile;
+    GridManager gridManager;
 
     private void Awake()
     {
-        tile = GetComponentInParent<Tile>();
+        gridManager = FindObjectOfType<GridManager>();
         coordLable = GetComponent<TextMeshPro>();
         coordLable.enabled = false;
         DisplayCoordinate();
@@ -30,8 +32,8 @@ public class CoordinateTextController : MonoBehaviour
             DisplayCoordinate();
             UpdateObjectName();
         }
-       UpdateColor();
-       ControlLable();
+        UpdateColor();
+        ControlLable();
     }
 
     private void ControlLable()
@@ -44,9 +46,22 @@ public class CoordinateTextController : MonoBehaviour
 
     private void UpdateColor()
     {
-        if (!tile.IsPlaceacle)
+        if (gridManager == null) { return; }
+
+        Node node = gridManager.GetNode(coordinate);
+        if (node == null) { return; }
+
+        if (!node.isWalkable)
         {
             coordLable.color = blockedColor;
+        }
+        else if (node.isPath)
+        {
+            coordLable.color = pathColor;
+        }
+        else if (node.isExplored)
+        {
+            coordLable.color = exploredColor;
         }
         else
         {
@@ -56,8 +71,10 @@ public class CoordinateTextController : MonoBehaviour
 
     private void DisplayCoordinate()
     {
-        coordinate.x = (int)Math.Round(transform.parent.position.x / UnityEditor.EditorSnapSettings.move.x);
-        coordinate.y = (int)Math.Round(transform.parent.position.z / UnityEditor.EditorSnapSettings.move.y);
+        if (gridManager == null) { return; }
+
+        coordinate.x = (int)Math.Round(transform.parent.position.x / gridManager.UnityGridSize);
+        coordinate.y = (int)Math.Round(transform.parent.position.z / gridManager.UnityGridSize);
         coordLable.text = coordinate.x + "," + coordinate.y;
     }
 

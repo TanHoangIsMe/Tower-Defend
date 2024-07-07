@@ -8,9 +8,10 @@ using UnityEngine.UIElements;
 public class EnemyMover : MonoBehaviour
 {
     [SerializeField] List<Tile> path = new List<Tile>();
-    [SerializeField] [Range(0f,5f)] float speed = 1f;
+    [SerializeField] [Range(0f,5f)] float speed = 0.5f;
 
     Enemy enemy;
+    Life life;
     bool isLeft;
     public bool IsLeft { set { isLeft = value; } } // choose which path enemy go
 
@@ -18,10 +19,12 @@ public class EnemyMover : MonoBehaviour
     private void Start()
     {
         enemy = GetComponent<Enemy>();  
+        life = FindObjectOfType<Life>();
     }
 
     void OnEnable()
     {
+        speed += 0.05f;
         FindThePath();
         StartCoroutine(MoveOnPath());
     }
@@ -77,7 +80,7 @@ public class EnemyMover : MonoBehaviour
     private void FinishPath()
     {
         gameObject.SetActive(false);
-        enemy.StealGold();
+        life.ReduceLife();
     }
 
     //private void SortArray(GameObject[] waypoints)

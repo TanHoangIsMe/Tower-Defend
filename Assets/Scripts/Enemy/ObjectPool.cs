@@ -6,15 +6,12 @@ using UnityEngine;
 public class ObjectPool : MonoBehaviour
 {
     [SerializeField] GameObject enemyPrefab;
-    [SerializeField] [Range(0,50)] int leftPoolSize = 5;
-    [SerializeField][Range(0, 50)] int rightPoolSize = 5;
-    [SerializeField] [Range(0.1f,20f)] float spawnTime = 1.0f;
+    [SerializeField] [Range(0,30)] int leftPoolSize = 5;
+    [SerializeField][Range(0, 30)] int rightPoolSize = 8;
+    [SerializeField] [Range(0.1f,20f)] float spawnTime = 3.0f;
 
     GameObject[] poolLeft;
     GameObject[] poolRight;
-
-    Transform firstTileLeft;
-    Transform firstTileRight;
 
     private void Awake()
     {       
@@ -23,22 +20,19 @@ public class ObjectPool : MonoBehaviour
 
     private void PopulatePool()
     {
-        firstTileLeft = GameObject.FindWithTag("PathLeft").transform.GetChild(0);
-        firstTileRight = GameObject.FindWithTag("PathRight").transform.GetChild(0);
-
         poolLeft = new GameObject[leftPoolSize];
         poolRight = new GameObject[rightPoolSize];
 
         for (int i = 0; i < leftPoolSize; i++) 
         {
-            poolLeft[i] = Instantiate(enemyPrefab, firstTileLeft);
+            poolLeft[i] = Instantiate(enemyPrefab, transform);
             poolLeft[i].GetComponent<EnemyMover>().IsLeft = true;
             poolLeft[i].SetActive(false);
         }
 
         for (int i = 0; i < rightPoolSize; i++)
         {
-            poolRight[i] = Instantiate(enemyPrefab, firstTileRight);
+            poolRight[i] = Instantiate(enemyPrefab, transform);
             poolRight[i].GetComponent<EnemyMover>().IsLeft = false;
             poolRight[i].SetActive(false);
         }
@@ -47,34 +41,35 @@ public class ObjectPool : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(SpawnEnemy());
+        StartCoroutine(SpawnEnemyLeft());
+        StartCoroutine(SpawnEnemyRight());
     }
 
-    private IEnumerator SpawnEnemy() 
+    private IEnumerator SpawnEnemyLeft() 
     { 
         while(true)
         {
-            EnableEnemy();
+            EnableEnemy(poolLeft,leftPoolSize);
             yield return new WaitForSeconds(spawnTime);
         }
     }
 
-    private void EnableEnemy()
+    private IEnumerator SpawnEnemyRight()
     {
-        for (int i = 0;i < leftPoolSize;i++)
+        while (true)
         {
-            if (poolLeft[i].activeInHierarchy == false)
-            {
-                poolLeft[i].SetActive(true);
-                return;
-            }
+            EnableEnemy(poolRight, rightPoolSize);
+            yield return new WaitForSeconds(spawnTime);
         }
+    }
 
-        for (int i = 0; i < rightPoolSize; i++)
+    private void EnableEnemy(GameObject[] pool, int poolSize)
+    {
+        for (int i = 0;i < poolSize;i++)
         {
-            if (poolRight[i].activeInHierarchy == false)
+            if (pool[i].activeInHierarchy == false)
             {
-                poolRight[i].SetActive(true);
+                pool[i].SetActive(true);
                 return;
             }
         }
