@@ -39,7 +39,7 @@ public class BombEnemyMover : MonoBehaviour
         }
         StopAllCoroutines();
         path.Clear();
-        path = pathFinder.FindNewPath();
+        path = pathFinder.FindNewPath(coordinate);
         StartCoroutine(MoveOnPath());
     }
 
