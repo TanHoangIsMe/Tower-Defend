@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 using UnityEngine.UIElements;
 
 public class Tile2 : MonoBehaviour
@@ -35,9 +36,26 @@ public class Tile2 : MonoBehaviour
     {
         if (gridManager.GetNode(coordinate).isWalkable && !pathFinder.WillBlockPath(coordinate))
         {
-            Instantiate(towerPrefab, transform.position, Quaternion.identity);
-            isPlaceable = false;
-            gridManager.BlockNode(coordinate);
+            bool isSuccess = CreateTower();
+            if (isSuccess)
+            {
+                gridManager.BlockNode(coordinate);
+                pathFinder.NotifyReceiver();
+            }
         }
+    }
+
+    bool CreateTower()
+    {
+        try
+        {
+            Instantiate(towerPrefab, transform.position, Quaternion.identity);
+            return true;
+        }catch(Exception e)
+        {
+            Debug.Log(e);
+            return false;
+        }
+        
     }
 }

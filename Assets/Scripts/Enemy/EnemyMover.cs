@@ -46,7 +46,8 @@ public class EnemyMover : MonoBehaviour
         foreach (Transform child in parent.transform)
         {
             Tile tile = child.GetComponent<Tile>();
-            path.Add(tile.GetComponent<Tile>());
+            if(tile != null)
+                path.Add(tile.GetComponent<Tile>());
         }
 
         ReturnToStartPosition();

@@ -1017,6 +1017,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1097138444}
+  - component: {fileID: 1097138445}
   - component: {fileID: 1097138443}
   m_Layer: 0
   m_Name: Object Pool
@@ -1054,6 +1055,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1097138445
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1097138442}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07d25aa04420b29489f7eb993c3d6978, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyPrefab: {fileID: 5040643765344069697, guid: 754fe5c69ab3a6647806d35cc87d8e0b, type: 3}
+  poolSize: 5
+  spawnTime: 3
 --- !u!1001 &1248718937
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1658,6 +1674,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 349801656}
     m_Modifications:
+    - target: {fileID: -3762572170095829757, guid: 05d705c792d818f4497ad4cd0ab0e3f2, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -3762572170095829757, guid: 05d705c792d818f4497ad4cd0ab0e3f2, type: 3}
+      propertyPath: isPlaceable
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1099072984800371104, guid: 05d705c792d818f4497ad4cd0ab0e3f2, type: 3}
       propertyPath: m_Name
       value: (0,2)
@@ -1743,7 +1767,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1657208fbe0cab45a518a5b0a0b65e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridSize: {x: 6, y: 3}
+  gridSize: {x: 6, y: 4}
   unityGridSize: 10
 --- !u!4 &1621476076
 Transform:
