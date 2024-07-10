@@ -53,7 +53,10 @@ public class TargetLock : MonoBehaviour
     private void Attack(bool isActive)
     {
         towerArrowParticle = GetComponentInChildren<ParticleSystem>();
-        var emissionState = towerArrowParticle.emission;
-        emissionState.enabled = isActive;
+        if (towerArrowParticle != null)
+        {
+            var emissionState = towerArrowParticle.emission;
+            emissionState.enabled = isActive;
+        }
     }
 }
