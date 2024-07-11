@@ -6,12 +6,14 @@ using UnityEngine;
 public class ObjectPool : MonoBehaviour
 {
     [SerializeField] GameObject enemyPrefab;
+    [SerializeField] GameObject boomerPrefab;
     [SerializeField] [Range(0,30)] int leftPoolSize = 5;
     [SerializeField][Range(0, 30)] int rightPoolSize = 8;
     [SerializeField] [Range(0.1f,20f)] float spawnTime = 3.0f;
 
     GameObject[] poolLeft;
     GameObject[] poolRight;
+    GameObject boomer;
 
     private void Awake()
     {       
@@ -36,6 +38,9 @@ public class ObjectPool : MonoBehaviour
             poolRight[i].GetComponent<EnemyMover>().IsLeft = false;
             poolRight[i].SetActive(false);
         }
+
+        boomer = Instantiate(boomerPrefab, transform);
+        boomer.SetActive(false);
     }
 
     // Start is called before the first frame update
@@ -63,6 +68,15 @@ public class ObjectPool : MonoBehaviour
         }
     }
 
+    private IEnumerator SpawnBoomer()
+    {
+        while (true)
+        {
+            EnableBoomer();
+            yield return new WaitForSeconds(spawnTime);
+        }
+    }
+
     private void EnableEnemy(GameObject[] pool, int poolSize)
     {
         for (int i = 0;i < poolSize;i++)
@@ -72,6 +86,15 @@ public class ObjectPool : MonoBehaviour
                 pool[i].SetActive(true);
                 return;
             }
+        }
+    }
+
+    void EnableBoomer()
+    {
+        if(boomer.activeInHierarchy == false)
+        {
+            boomer.SetActive(true);
+            return;
         }
     }
 }
