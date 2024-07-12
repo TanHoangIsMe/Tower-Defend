@@ -48,6 +48,7 @@ public class ObjectPool : MonoBehaviour
     {
         StartCoroutine(SpawnEnemyLeft());
         StartCoroutine(SpawnEnemyRight());
+        StartCoroutine(SpawnBoomer());
     }
 
     private IEnumerator SpawnEnemyLeft() 

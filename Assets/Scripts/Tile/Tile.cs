@@ -9,7 +9,23 @@ public class Tile : MonoBehaviour
 
     public bool IsPlaceacle { get { return isPlaceable; } }
 
+    GridNodeManager gridNodeManager;
     Vector2Int coordinate;
+
+    void Awake()
+    {
+        gridNodeManager = FindObjectOfType<GridNodeManager>();
+    }
+
+    void Start()
+    {
+        if(gridNodeManager != null)
+        {
+            coordinate = gridNodeManager.GetCoordinatesFromPosition(transform.position);
+            if (!isPlaceable)
+                gridNodeManager.BLockTreeNode(coordinate);
+        }               
+    }
 
     private void OnMouseDown()
     {

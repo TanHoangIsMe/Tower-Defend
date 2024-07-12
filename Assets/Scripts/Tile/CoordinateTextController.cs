@@ -8,15 +8,17 @@ public class CoordinateTextController : MonoBehaviour
 {
     [SerializeField] Color defaultColor = Color.white;
     [SerializeField] Color blockedColor = Color.gray;
+    [SerializeField] Color exploredColor = Color.red;
+    [SerializeField] Color pathColor = Color.yellow;
 
     TextMeshPro coordLable;
     Vector2Int coordinate = new Vector2Int();
 
-    Tile tile;
+    GridNodeManager gridNodeManager;
 
     private void Awake()
     {
-        tile = GetComponentInParent<Tile>();
+        gridNodeManager = FindObjectOfType<GridNodeManager>();
         coordLable = GetComponent<TextMeshPro>();
         coordLable.enabled = false;
         DisplayCoordinate();
@@ -44,11 +46,25 @@ public class CoordinateTextController : MonoBehaviour
 
     private void UpdateColor()
     {
-        if (!tile.IsPlaceacle)
+        if(gridNodeManager == null) { return; }
+        
+        TreeNode treeNode = gridNodeManager.GetTreeNode(coordinate);
+        
+        if (treeNode == null) { return; }
+
+        if (!treeNode.IsWalkable)
         {
             coordLable.color = blockedColor;
         }
-        else
+        else if (treeNode.IsPath)
+        {
+            coordLable.color = pathColor;
+        }
+        else if (treeNode.IsExplored)
+        {
+            coordLable.color = exploredColor;
+        }
+        else 
         {
             coordLable.color = defaultColor;
         }
@@ -56,8 +72,8 @@ public class CoordinateTextController : MonoBehaviour
 
     private void DisplayCoordinate()
     {
-        coordinate.x = (int)Math.Round(transform.parent.position.x / UnityEditor.EditorSnapSettings.move.x);
-        coordinate.y = (int)Math.Round(transform.parent.position.z / UnityEditor.EditorSnapSettings.move.y);
+        coordinate.x = (int)Math.Round(transform.parent.position.x / gridNodeManager.UnityGridSize);
+        coordinate.y = (int)Math.Round(transform.parent.position.z / gridNodeManager.UnityGridSize);
         coordLable.text = coordinate.x + "," + coordinate.y;
     }
 
