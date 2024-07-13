@@ -6,7 +6,6 @@ public class TargetPathFinder : MonoBehaviour
 {
     [SerializeField] Vector2Int startCoor;
     public Vector2Int StartCoor { get { return startCoor; } }
-    [SerializeField] Vector2Int endCoor;
     TreeNode startNode;
     TreeNode endNode;
 
@@ -27,7 +26,7 @@ public class TargetPathFinder : MonoBehaviour
         {
             grid = gridNodeManager.LeftGrid;
             startNode = grid[startCoor];
-            endNode = grid[endCoor];
+            SetEndPoint();
             startNode.IsWalkable = true;
             endNode.IsWalkable = true;
         }
@@ -40,6 +39,7 @@ public class TargetPathFinder : MonoBehaviour
 
     public List<TreeNode> FindNewPath()
     {
+        gridNodeManager.ResetNode();
         BreadthFirstSearch();
         return BuildPath();
     }
@@ -102,5 +102,34 @@ public class TargetPathFinder : MonoBehaviour
         }
         path.Reverse();
         return path;
+    }
+
+    void SetEndPoint()
+    {
+        Debug.Log("end");
+        Tower[] towers = FindObjectsOfType<Tower>();
+        if (towers.Length == 0) endNode = startNode;
+        else
+        {
+            float closestRange = Mathf.Infinity;
+            Vector3 closestPosition = Vector3.zero;
+            Vector3 startPosition = gridNodeManager.GetPositionFromCoordinates(startCoor);
+            foreach (Tower tower in towers)
+            {
+                float distance = Vector3.Distance(startPosition, tower.transform.position);
+                if (distance < closestRange)
+                {
+                    closestRange = distance;
+                    closestPosition = tower.transform.position;
+                }
+            }
+            endNode = grid[gridNodeManager.GetCoordinatesFromPosition(closestPosition)];
+        }
+    }
+
+    public void NotifyReceiver()
+    {
+        BroadcastMessage("SetEndPoint", SendMessageOptions.DontRequireReceiver);
+        BroadcastMessage("FindThePath", SendMessageOptions.DontRequireReceiver);
     }
 }

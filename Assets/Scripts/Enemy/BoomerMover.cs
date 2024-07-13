@@ -28,6 +28,7 @@ public class BoomerMover : MonoBehaviour
 
     private void FindThePath()
     {
+        Debug.Log("new");
         path.Clear();
         path = targetPathFinder.FindNewPath();       
     }

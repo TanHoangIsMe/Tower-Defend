@@ -37,6 +37,16 @@ public class GridNodeManager : MonoBehaviour
         return null;
     }
 
+    public void ResetNode()
+    {
+        foreach (KeyValuePair<Vector2Int, TreeNode> entry in leftGrid)
+        {
+            entry.Value.IsExplored = false;
+            entry.Value.IsPath = false;
+            entry.Value.ConnectedTo = null;
+        }
+    }
+
     public void BLockTreeNode(Vector2Int coordinates)
     {
         if (leftGrid.ContainsKey(coordinates))
