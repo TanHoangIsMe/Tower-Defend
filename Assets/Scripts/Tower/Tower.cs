@@ -7,6 +7,8 @@ public class Tower : MonoBehaviour
 {
     [SerializeField] int cost = 50;
     [SerializeField] float buildTime = 1;
+    Vector2Int address;
+    public Vector2Int Address { set { address = value; } }
 
     private void Start()
     {

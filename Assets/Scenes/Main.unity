@@ -50125,7 +50125,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 8548858593238119398, guid: 7fb8d74871fa9c74cab9389cd54e2860, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 40
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 8548858593238119398, guid: 7fb8d74871fa9c74cab9389cd54e2860, type: 3}
       propertyPath: m_LocalPosition.y
@@ -54320,7 +54320,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startCoor: {x: 0, y: 5}
-  endCoor: {x: 1, y: 1}
 --- !u!4 &1967634382 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7248020921452908114, guid: 9ebb43e26e3fe8e4da96ac5bd88cdf3c, type: 3}
@@ -56272,7 +56271,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 8548858593238119398, guid: 7fb8d74871fa9c74cab9389cd54e2860, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 30
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 8548858593238119398, guid: 7fb8d74871fa9c74cab9389cd54e2860, type: 3}
       propertyPath: m_LocalPosition.y
@@ -59330,7 +59329,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 8548858593238119398, guid: 7fb8d74871fa9c74cab9389cd54e2860, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 50
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 8548858593238119398, guid: 7fb8d74871fa9c74cab9389cd54e2860, type: 3}
       propertyPath: m_LocalPosition.y

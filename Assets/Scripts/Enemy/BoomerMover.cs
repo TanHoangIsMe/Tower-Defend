@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class BoomerMover : MonoBehaviour
@@ -28,7 +29,6 @@ public class BoomerMover : MonoBehaviour
 
     private void FindThePath()
     {
-        Debug.Log("new");
         path.Clear();
         path = targetPathFinder.FindNewPath();       
     }
@@ -60,6 +60,32 @@ public class BoomerMover : MonoBehaviour
 
     private void FinishPath()
     {
+        targetPathFinder.NotifyReceiver();
         gameObject.SetActive(false);
+        DestroyTower();
+        
+    }
+
+    void DestroyTower()
+    {
+        Vector2Int[] addresses = { path.Last().Coordinates + Vector2Int.left,
+                                 path.Last().Coordinates + Vector2Int.up,
+                                 path.Last().Coordinates + Vector2Int.right,
+                                 path.Last().Coordinates + Vector2Int.down,
+                                 path.Last().Coordinates + Vector2Int.up + Vector2Int.left,
+                                 path.Last().Coordinates + Vector2Int.up + Vector2Int.right,
+                                 path.Last().Coordinates + Vector2Int.down + Vector2Int.left,
+                                 path.Last().Coordinates + Vector2Int.down + Vector2Int.right};
+
+        Tower[] towers = FindObjectsOfType<Tower>();
+
+        foreach (Vector2Int address in addresses)
+        {
+            foreach (Tower tower in towers)
+            {
+                tower.Address = address;
+                Destroy(tower.gameObject);
+            }    
+        }
     }
 }

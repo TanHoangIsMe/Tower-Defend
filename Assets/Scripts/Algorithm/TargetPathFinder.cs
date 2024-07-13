@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -106,7 +107,6 @@ public class TargetPathFinder : MonoBehaviour
 
     void SetEndPoint()
     {
-        Debug.Log("end");
         Tower[] towers = FindObjectsOfType<Tower>();
         if (towers.Length == 0) endNode = startNode;
         else

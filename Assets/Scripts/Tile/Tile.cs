@@ -34,6 +34,7 @@ public class Tile : MonoBehaviour
         if (isPlaceable)
         {
             bool isPlaced = towerPrefab.CreateTower(towerPrefab,transform.position);
+            towerPrefab.Address = coordinate;
             isPlaceable = !isPlaced;
             targetPathFinder.NotifyReceiver();
         }
