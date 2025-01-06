@@ -14,11 +14,11 @@ public class CoordinateTextController : MonoBehaviour
     TextMeshPro coordLable;
     Vector2Int coordinate = new Vector2Int();
 
-    GridNodeManager gridNodeManager;
+    GridManager gridManager;
 
     private void Awake()
     {
-        gridNodeManager = FindObjectOfType<GridNodeManager>();
+        gridManager = FindObjectOfType<GridManager>();
         coordLable = GetComponent<TextMeshPro>();
         coordLable.enabled = false;
         DisplayCoordinate();
@@ -46,21 +46,21 @@ public class CoordinateTextController : MonoBehaviour
 
     private void UpdateColor()
     {
-        if(gridNodeManager == null) { return; }
+        if(gridManager == null) { return; }
         
-        TreeNode treeNode = gridNodeManager.GetTreeNode(coordinate);
+        Node node = gridManager.GetNode(coordinate);
         
-        if (treeNode == null) { return; }
+        if (node == null) { return; }
 
-        if (!treeNode.IsWalkable)
+        if (!node.isWalkable)
         {
             coordLable.color = blockedColor;
         }
-        else if (treeNode.IsPath)
+        else if (node.isPath)
         {
             coordLable.color = pathColor;
         }
-        else if (treeNode.IsExplored)
+        else if (node.isExplored)
         {
             coordLable.color = exploredColor;
         }
@@ -72,8 +72,8 @@ public class CoordinateTextController : MonoBehaviour
 
     private void DisplayCoordinate()
     {
-        coordinate.x = (int)Math.Round(transform.parent.position.x / gridNodeManager.UnityGridSize);
-        coordinate.y = (int)Math.Round(transform.parent.position.z / gridNodeManager.UnityGridSize);
+        coordinate.x = (int)Math.Round(transform.parent.position.x / gridManager.UnityGridSize);
+        coordinate.y = (int)Math.Round(transform.parent.position.z / gridManager.UnityGridSize);
         coordLable.text = coordinate.x + "," + coordinate.y;
     }
 

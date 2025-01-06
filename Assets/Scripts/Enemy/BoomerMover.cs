@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -76,16 +77,20 @@ public class BoomerMover : MonoBehaviour
                                  path.Last().Coordinates + Vector2Int.up + Vector2Int.right,
                                  path.Last().Coordinates + Vector2Int.down + Vector2Int.left,
                                  path.Last().Coordinates + Vector2Int.down + Vector2Int.right};
-
+        //Debug.Log(path.Last().Coordinates);
         Tower[] towers = FindObjectsOfType<Tower>();
 
         foreach (Vector2Int address in addresses)
         {
+            //Debug.Log(address);
             foreach (Tower tower in towers)
             {
-                tower.Address = address;
-                Destroy(tower.gameObject);
+                Debug.Log(tower.Address);
+                if (tower.Address == address) Destroy(tower.gameObject);
             }    
         }
+
+        Array.Clear(towers, 0, towers.Length);
+        Array.Clear(addresses, 0, addresses.Length);
     }
 }

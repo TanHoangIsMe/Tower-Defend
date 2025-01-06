@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 [RequireComponent(typeof(Enemy))]
 public class EnemyMover : MonoBehaviour
@@ -22,7 +21,7 @@ public class EnemyMover : MonoBehaviour
         life = FindObjectOfType<Life>();
     }
 
-    void OnEnable()
+    private void OnEnable()
     {
         speed += 0.05f;
         FindThePath();

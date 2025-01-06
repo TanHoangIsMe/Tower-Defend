@@ -1,19 +1,19 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ObjectPool : MonoBehaviour
 {
     [SerializeField] GameObject enemyPrefab;
     [SerializeField] GameObject boomerPrefab;
-    [SerializeField] [Range(0,30)] int leftPoolSize = 5;
-    [SerializeField][Range(0, 30)] int rightPoolSize = 8;
-    [SerializeField] [Range(0.1f,20f)] float spawnTime = 3.0f;
+    [SerializeField] [Range(0,30)] int leftRamPoolSize = 5;
+    [SerializeField] [Range(0, 30)] int rightRamPoolSize = 8;
+    [SerializeField] [Range(0.1f,20f)] float ramSpawnTime = 3.0f;
 
-    GameObject[] poolLeft;
-    GameObject[] poolRight;
-    GameObject boomer;
+    GameObject[] leftRamPool;
+    GameObject[] rightRamPool;
+    GameObject leftBoomer;
+    GameObject rightBoomer;
 
     private void Awake()
     {       
@@ -22,25 +22,25 @@ public class ObjectPool : MonoBehaviour
 
     private void PopulatePool()
     {
-        poolLeft = new GameObject[leftPoolSize];
-        poolRight = new GameObject[rightPoolSize];
+        leftRamPool = new GameObject[leftRamPoolSize];
+        rightRamPool = new GameObject[rightRamPoolSize];
 
-        for (int i = 0; i < leftPoolSize; i++) 
+        for (int i = 0; i < leftRamPoolSize; i++) 
         {
-            poolLeft[i] = Instantiate(enemyPrefab, transform);
-            poolLeft[i].GetComponent<EnemyMover>().IsLeft = true;
-            poolLeft[i].SetActive(false);
+            leftRamPool[i] = Instantiate(enemyPrefab, transform);
+            leftRamPool[i].GetComponent<EnemyMover>().IsLeft = true;
+            leftRamPool[i].SetActive(false);
         }
 
-        for (int i = 0; i < rightPoolSize; i++)
+        for (int i = 0; i < rightRamPoolSize; i++)
         {
-            poolRight[i] = Instantiate(enemyPrefab, transform);
-            poolRight[i].GetComponent<EnemyMover>().IsLeft = false;
-            poolRight[i].SetActive(false);
+            rightRamPool[i] = Instantiate(enemyPrefab, transform);
+            rightRamPool[i].GetComponent<EnemyMover>().IsLeft = false;
+            rightRamPool[i].SetActive(false);
         }
 
-        boomer = Instantiate(boomerPrefab, transform);
-        boomer.SetActive(false);
+        //boomer = Instantiate(boomerPrefab, transform);
+        //boomer.SetActive(false);
     }
 
     // Start is called before the first frame update
@@ -48,15 +48,15 @@ public class ObjectPool : MonoBehaviour
     {
         StartCoroutine(SpawnEnemyLeft());
         StartCoroutine(SpawnEnemyRight());
-        StartCoroutine(SpawnBoomer());
+        //StartCoroutine(SpawnBoomer());
     }
 
     private IEnumerator SpawnEnemyLeft() 
     { 
         while(true)
         {
-            EnableEnemy(poolLeft,leftPoolSize);
-            yield return new WaitForSeconds(spawnTime);
+            EnableEnemy(leftRamPool, leftRamPoolSize);
+            yield return new WaitForSeconds(ramSpawnTime);
         }
     }
 
@@ -64,8 +64,8 @@ public class ObjectPool : MonoBehaviour
     {
         while (true)
         {
-            EnableEnemy(poolRight, rightPoolSize);
-            yield return new WaitForSeconds(spawnTime);
+            EnableEnemy(rightRamPool, rightRamPoolSize);
+            yield return new WaitForSeconds(ramSpawnTime);
         }
     }
 
@@ -74,7 +74,7 @@ public class ObjectPool : MonoBehaviour
         while (true)
         {
             EnableBoomer();
-            yield return new WaitForSeconds(spawnTime);
+            yield return new WaitForSeconds(ramSpawnTime);
         }
     }
 
@@ -92,10 +92,10 @@ public class ObjectPool : MonoBehaviour
 
     void EnableBoomer()
     {
-        if(boomer.activeInHierarchy == false)
-        {
-            boomer.SetActive(true);
-            return;
-        }
+        //if(boomer.activeInHierarchy == false)
+        //{
+        //    boomer.SetActive(true);
+        //    return;
+        //}
     }
 }

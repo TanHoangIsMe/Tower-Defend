@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Tower : MonoBehaviour
@@ -8,7 +6,7 @@ public class Tower : MonoBehaviour
     [SerializeField] int cost = 50;
     [SerializeField] float buildTime = 1;
     Vector2Int address;
-    public Vector2Int Address { set { address = value; } }
+    public Vector2Int Address { get { return address; } set { address = value; } }
 
     private void Start()
     {

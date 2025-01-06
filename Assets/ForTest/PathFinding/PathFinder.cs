@@ -1,14 +1,12 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class PathFinder : MonoBehaviour
 {
     [SerializeField] Vector2Int startCoordinate;
-    public Vector2Int StartCoordinate { get { return startCoordinate; } }
     [SerializeField] Vector2Int endCoordinate;
+
+    public Vector2Int StartCoordinate { get { return startCoordinate; } }
     public Vector2Int EndCoordinate { get { return endCoordinate; } }
 
     Node currentSearchNode;

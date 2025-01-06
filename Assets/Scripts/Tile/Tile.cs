@@ -1,32 +1,32 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Tile : MonoBehaviour
 {
     [SerializeField] Tower towerPrefab;
     [SerializeField] bool isPlaceable;
+    // value to know a tile that cannot place tower but walkable
+    [SerializeField] bool isCrossable; 
 
     public bool IsPlaceacle { get { return isPlaceable; } }
 
-    GridNodeManager gridNodeManager;
-    TargetPathFinder targetPathFinder;
+    GridManager gridManager;
+    PathFinder pathFinder;
     Vector2Int coordinate;
 
     void Awake()
     {
-        gridNodeManager = FindObjectOfType<GridNodeManager>();
-        targetPathFinder = FindObjectOfType<TargetPathFinder>();
+        gridManager = FindObjectOfType<GridManager>();
+        pathFinder = FindObjectOfType<PathFinder>();
     }
 
     void Start()
     {
-        if(gridNodeManager != null)
+        if(gridManager != null)
         {
-            coordinate = gridNodeManager.GetCoordinatesFromPosition(transform.position);
-            if (!isPlaceable)
-                gridNodeManager.BLockTreeNode(coordinate);
-        }               
+            coordinate = gridManager.GetCoordinatesFromPosition(transform.position);
+            if (!isPlaceable && !isCrossable)
+                gridManager.BlockNode(coordinate);
+        }
     }
 
     private void OnMouseDown()
@@ -36,7 +36,7 @@ public class Tile : MonoBehaviour
             bool isPlaced = towerPrefab.CreateTower(towerPrefab,transform.position);
             towerPrefab.Address = coordinate;
             isPlaceable = !isPlaced;
-            targetPathFinder.NotifyReceiver();
+            //targetPathFinder.NotifyReceiver();
         }
     }
 }
