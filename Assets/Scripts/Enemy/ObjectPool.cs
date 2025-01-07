@@ -39,46 +39,43 @@ public class ObjectPool : MonoBehaviour
             rightRamPool[i].SetActive(false);
         }
 
-        //boomer = Instantiate(boomerPrefab, transform);
-        //boomer.SetActive(false);
+        leftBoomer = Instantiate(boomerPrefab, transform);
+        leftBoomer.GetComponent<BoomerMover>().IsLeft = true;
+        leftBoomer.SetActive(false);
+
+        rightBoomer = Instantiate(boomerPrefab, transform);
+        rightBoomer.GetComponent<BoomerMover>().IsLeft = false;
+        rightBoomer.SetActive(false);
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(SpawnEnemyLeft());
-        StartCoroutine(SpawnEnemyRight());
-        //StartCoroutine(SpawnBoomer());
+        StartCoroutine(SpawnRam(leftRamPool, leftRamPoolSize));
+        StartCoroutine(SpawnRam(rightRamPool, rightRamPoolSize));
+        StartCoroutine(SpawnBoomer(leftBoomer));
+        StartCoroutine(SpawnBoomer(rightBoomer));
     }
 
-    private IEnumerator SpawnEnemyLeft() 
+    private IEnumerator SpawnRam(GameObject[] ramPool, int ramPoolSize) 
     { 
         while(true)
         {
-            EnableEnemy(leftRamPool, leftRamPoolSize);
+            EnableRam(ramPool, ramPoolSize);
             yield return new WaitForSeconds(ramSpawnTime);
         }
     }
 
-    private IEnumerator SpawnEnemyRight()
+    private IEnumerator SpawnBoomer(GameObject boomer)
     {
         while (true)
         {
-            EnableEnemy(rightRamPool, rightRamPoolSize);
+            EnableBoomer(boomer);
             yield return new WaitForSeconds(ramSpawnTime);
         }
     }
 
-    private IEnumerator SpawnBoomer()
-    {
-        while (true)
-        {
-            EnableBoomer();
-            yield return new WaitForSeconds(ramSpawnTime);
-        }
-    }
-
-    private void EnableEnemy(GameObject[] pool, int poolSize)
+    private void EnableRam(GameObject[] pool, int poolSize)
     {
         for (int i = 0;i < poolSize;i++)
         {
@@ -90,12 +87,12 @@ public class ObjectPool : MonoBehaviour
         }
     }
 
-    void EnableBoomer()
+    private void EnableBoomer(GameObject boomer)
     {
-        //if(boomer.activeInHierarchy == false)
-        //{
-        //    boomer.SetActive(true);
-        //    return;
-        //}
+        if (boomer.activeInHierarchy == false)
+        {
+            boomer.SetActive(true);
+            return;
+        }
     }
 }

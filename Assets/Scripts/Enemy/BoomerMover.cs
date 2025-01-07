@@ -6,37 +6,49 @@ using UnityEngine;
 
 public class BoomerMover : MonoBehaviour
 {
-    List<TreeNode> path = new List<TreeNode>();
+    [SerializeField][Range(0f, 5f)] private float speed = 1.5f;
 
-    [SerializeField][Range(0f, 5f)] float speed = 1.5f;
+    private List<Node> path = new List<Node>();
+    private GridManager gridManager;
+    private PathFinder pathFinder;
 
-    GridNodeManager gridNodeManager;
-    TargetPathFinder targetPathFinder;
-
+    private bool isLeft;
+    public bool IsLeft { set { isLeft = value; } }
 
     // Start is called before the first frame update
     private void Awake()
     {
-        gridNodeManager = FindObjectOfType<GridNodeManager>();
-        targetPathFinder = FindObjectOfType<TargetPathFinder>();
+        gridManager = FindObjectOfType<GridManager>();
+        pathFinder = FindObjectOfType<PathFinder>();
     }
 
     void OnEnable()
     {
         ReturnToStartPosition();
-        FindThePath();
-        StartCoroutine(MoveOnPath());
+        //FindThePath();
+        //StartCoroutine(MoveOnPath());
     }
 
     private void FindThePath()
     {
         path.Clear();
-        path = targetPathFinder.FindNewPath();       
+        path = pathFinder.FindNewPath();       
     }
 
     private void ReturnToStartPosition()
     {
-        transform.position = gridNodeManager.GetPositionFromCoordinates(targetPathFinder.StartCoor);
+        Vector2Int coordinate = new Vector2Int();
+        if (isLeft)
+        {
+            coordinate.x = 0;
+            coordinate.y = 5;
+        }
+        else
+        {
+            coordinate.x = 16;
+            coordinate.y = -3;
+        }
+        transform.position = gridManager.GetPositionFromCoordinates(coordinate);
     }
 
     private IEnumerator MoveOnPath()
@@ -44,7 +56,7 @@ public class BoomerMover : MonoBehaviour
         for (int i = 1; i < path.Count; i++)
         {
             Vector3 startPosition = transform.position;
-            Vector3 endPosition = gridNodeManager.GetPositionFromCoordinates(path[i].Coordinates);
+            Vector3 endPosition = gridManager.GetPositionFromCoordinates(path[i].coordinates);
             float travelPercent = 0f;
 
             transform.LookAt(endPosition);
@@ -61,36 +73,35 @@ public class BoomerMover : MonoBehaviour
 
     private void FinishPath()
     {
-        targetPathFinder.NotifyReceiver();
+        pathFinder.NotifyReceiver();
         gameObject.SetActive(false);
-        DestroyTower();
-        
+        //DestroyTower();      
     }
 
-    void DestroyTower()
-    {
-        Vector2Int[] addresses = { path.Last().Coordinates + Vector2Int.left,
-                                 path.Last().Coordinates + Vector2Int.up,
-                                 path.Last().Coordinates + Vector2Int.right,
-                                 path.Last().Coordinates + Vector2Int.down,
-                                 path.Last().Coordinates + Vector2Int.up + Vector2Int.left,
-                                 path.Last().Coordinates + Vector2Int.up + Vector2Int.right,
-                                 path.Last().Coordinates + Vector2Int.down + Vector2Int.left,
-                                 path.Last().Coordinates + Vector2Int.down + Vector2Int.right};
-        //Debug.Log(path.Last().Coordinates);
-        Tower[] towers = FindObjectsOfType<Tower>();
+    //void DestroyTower()
+    //{
+    //    Vector2Int[] addresses = { path.Last().Coordinates + Vector2Int.left,
+    //                             path.Last().Coordinates + Vector2Int.up,
+    //                             path.Last().Coordinates + Vector2Int.right,
+    //                             path.Last().Coordinates + Vector2Int.down,
+    //                             path.Last().Coordinates + Vector2Int.up + Vector2Int.left,
+    //                             path.Last().Coordinates + Vector2Int.up + Vector2Int.right,
+    //                             path.Last().Coordinates + Vector2Int.down + Vector2Int.left,
+    //                             path.Last().Coordinates + Vector2Int.down + Vector2Int.right};
+    //    //Debug.Log(path.Last().Coordinates);
+    //    Tower[] towers = FindObjectsOfType<Tower>();
 
-        foreach (Vector2Int address in addresses)
-        {
-            //Debug.Log(address);
-            foreach (Tower tower in towers)
-            {
-                Debug.Log(tower.Address);
-                if (tower.Address == address) Destroy(tower.gameObject);
-            }    
-        }
+    //    foreach (Vector2Int address in addresses)
+    //    {
+    //        //Debug.Log(address);
+    //        foreach (Tower tower in towers)
+    //        {
+    //            Debug.Log(tower.Address);
+    //            if (tower.Address == address) Destroy(tower.gameObject);
+    //        }    
+    //    }
 
-        Array.Clear(towers, 0, towers.Length);
-        Array.Clear(addresses, 0, addresses.Length);
-    }
+    //    Array.Clear(towers, 0, towers.Length);
+    //    Array.Clear(addresses, 0, addresses.Length);
+    //}
 }
