@@ -3,10 +3,9 @@ using UnityEngine;
 
 public class Tower : MonoBehaviour
 {
+    [SerializeField] private ParticleSystem particleSystem;
     [SerializeField] int cost = 50;
     [SerializeField] float buildTime = 1;
-    Vector2Int address;
-    public Vector2Int Address { get { return address; } set { address = value; } }
 
     private void Start()
     {
@@ -54,5 +53,10 @@ public class Tower : MonoBehaviour
         {
             return false;
         }
+    }
+
+    public void SpawnParticle()
+    {
+        Instantiate(particleSystem.gameObject, transform.position, Quaternion.identity);
     }
 }

@@ -3,11 +3,11 @@ using UnityEngine;
 
 public class PathFinder : MonoBehaviour
 {
-    [SerializeField] Vector2Int startCoordinate;
-    [SerializeField] Vector2Int endCoordinate;
+    private Vector2Int startCoordinate;
+    private Vector2Int endCoordinate;
 
-    public Vector2Int StartCoordinate { get { return startCoordinate; } }
-    public Vector2Int EndCoordinate { get { return endCoordinate; } }
+    public Vector2Int StartCoordinate { get { return startCoordinate; } set { startCoordinate = value; } }
+    public Vector2Int EndCoordinate { get { return endCoordinate; } set { endCoordinate = value; } }
 
     Node currentSearchNode;
     Node startNode;
@@ -20,7 +20,7 @@ public class PathFinder : MonoBehaviour
     Dictionary<Vector2Int, Node> reached = new Dictionary<Vector2Int, Node>();
     Queue<Node> frontier = new Queue<Node>();
 
-    private void Awake()
+    public void SetUpJourney()
     {
         gridManager = FindObjectOfType<GridManager>();
         if (gridManager != null)
@@ -33,22 +33,10 @@ public class PathFinder : MonoBehaviour
         }
     }
 
-
-    //// Start is called before the first frame update
-    void Start()
-    {
-        FindNewPath();
-    }
-
     public List<Node> FindNewPath()
     {
-        return FindNewPath(startCoordinate);
-    }
-
-    public List<Node> FindNewPath(Vector2Int coordinate)
-    {
         gridManager.ResetNode();
-        BreadthFirstSearch(coordinate);
+        BreadthFirstSearch();
         return BuildPath();
     }
 
@@ -76,14 +64,14 @@ public class PathFinder : MonoBehaviour
         }
     }
 
-    void BreadthFirstSearch(Vector2Int coordinate)
+    void BreadthFirstSearch()
     {
         frontier.Clear();
         reached.Clear();
 
         bool isRunning = true;
-        frontier.Enqueue(grid[coordinate]);
-        reached.Add(coordinate, grid[coordinate]);
+        frontier.Enqueue(grid[startCoordinate]);
+        reached.Add(startCoordinate, grid[startCoordinate]);
 
         while (frontier.Count > 0 && isRunning)
         {
@@ -131,10 +119,5 @@ public class PathFinder : MonoBehaviour
             }
         }
         return false;
-    }
-
-    public void NotifyReceiver()
-    {
-        BroadcastMessage("FindThePath",true, SendMessageOptions.DontRequireReceiver);
     }
 }

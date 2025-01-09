@@ -61,9 +61,9 @@ public class GridManager : MonoBehaviour
 
     private void CreateGrid()
     {
-        for (int x = 0; x < gridSize.x; x++)
+        for (int x = -1; x <= gridSize.x; x++)
         {
-            for (int y = 0; y < gridSize.y; y++)
+            for (int y = -6; y <= gridSize.y; y++)
             { 
                 Vector2Int coordinate = new Vector2Int(x, y);
                 grid.Add(coordinate, new Node(coordinate, true));

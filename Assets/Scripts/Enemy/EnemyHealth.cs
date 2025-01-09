@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Enemy))]
@@ -11,6 +9,7 @@ public class EnemyHealth : MonoBehaviour
 
     int currentHitPoint = 0;
     Enemy enemy;
+    EnemyDeathCounter counter;
 
     // Start is called before the first frame update
     void OnEnable()
@@ -21,15 +20,7 @@ public class EnemyHealth : MonoBehaviour
     private void Start()
     {
         enemy = GetComponent<Enemy>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (currentHitPoint < 0) 
-        {
-            gameObject.SetActive(false);
-        }
+        counter = FindObjectOfType<EnemyDeathCounter>();
     }
 
     private void OnParticleCollision(GameObject other)
@@ -40,6 +31,8 @@ public class EnemyHealth : MonoBehaviour
             gameObject.SetActive(false);
             maxHitPoint += difficultyLevel;
             enemy.RewardGold();
+            counter.Death += 1;
+            counter.CheckBoomerSpawnCondition();
         }
     }
 }

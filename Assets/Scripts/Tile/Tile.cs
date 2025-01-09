@@ -10,13 +10,11 @@ public class Tile : MonoBehaviour
     public bool IsPlaceacle { get { return isPlaceable; } }
 
     GridManager gridManager;
-    PathFinder pathFinder;
     Vector2Int coordinate;
 
     void Awake()
     {
         gridManager = FindObjectOfType<GridManager>();
-        pathFinder = FindObjectOfType<PathFinder>();
     }
 
     void Start()
@@ -34,9 +32,12 @@ public class Tile : MonoBehaviour
         if (isPlaceable)
         {
             bool isPlaced = towerPrefab.CreateTower(towerPrefab,transform.position);
-            towerPrefab.Address = coordinate;
             isPlaceable = !isPlaced;
-            //targetPathFinder.NotifyReceiver();
+            BoomerMover[] boomer = FindObjectsOfType<BoomerMover>();
+            for(int i = 0; i<boomer.Length; i++)
+            {
+                boomer[i].Move();
+            }
         }
     }
 }

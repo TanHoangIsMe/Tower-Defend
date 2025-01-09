@@ -47,7 +47,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44e732efd24e1334ebb85d731024c10f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  particleSystem: {fileID: 198204746014789312, guid: a0f526e1896bd2e468b2d6ec99339e56, type: 3}
   cost: 50
+  buildTime: 1
 --- !u!114 &-5698252437715696803
 MonoBehaviour:
   m_ObjectHideFlags: 0

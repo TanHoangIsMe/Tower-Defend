@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class BoomerMover : MonoBehaviour
@@ -11,52 +10,93 @@ public class BoomerMover : MonoBehaviour
     private List<Node> path = new List<Node>();
     private GridManager gridManager;
     private PathFinder pathFinder;
+    private Coroutine coroutine;
 
     private bool isLeft;
-    public bool IsLeft { set { isLeft = value; } }
+    public bool IsLeft { get { return isLeft; } set { isLeft = value; } }
+
+    private bool canStart;
+    public bool CanStart { get { return canStart; } set { canStart = value; } }
 
     // Start is called before the first frame update
     private void Awake()
     {
         gridManager = FindObjectOfType<GridManager>();
-        pathFinder = FindObjectOfType<PathFinder>();
+        pathFinder = GetComponent<PathFinder>();
     }
 
     void OnEnable()
     {
-        ReturnToStartPosition();
-        //FindThePath();
-        //StartCoroutine(MoveOnPath());
+        if (canStart)
+        {
+            ReturnToStartPosition();
+            Move();
+        }
+    }
+
+    public void Move()
+    {
+        if(coroutine != null) StopCoroutine(coroutine);
+        transform.position = transform.position;
+        FindThePath();
+        coroutine = StartCoroutine(MoveOnPath());
     }
 
     private void FindThePath()
     {
         path.Clear();
+        pathFinder.StartCoordinate = gridManager.GetCoordinatesFromPosition(transform.position);
+        pathFinder.EndCoordinate = GetEndCoordinates();
+        pathFinder.SetUpJourney();
         path = pathFinder.FindNewPath();       
     }
 
     private void ReturnToStartPosition()
     {
-        Vector2Int coordinate = new Vector2Int();
+        transform.position = gridManager
+            .GetPositionFromCoordinates(GetStartCoordinates());
+    }
+
+    private Vector2Int GetStartCoordinates()
+    {
         if (isLeft)
-        {
-            coordinate.x = 0;
-            coordinate.y = 5;
-        }
+            return new Vector2Int(0, 5);
         else
+            return new Vector2Int(16, -3);
+    }
+
+    private Vector2Int GetEndCoordinates()
+    {
+        Vector2Int closestCoordinates = GetStartCoordinates();
+        Vector2Int towerCoordinate;
+        Tower[] towers = FindObjectsOfType<Tower>();
+        float closestDistance = 50f;
+
+        for (int i = 0; i < towers.Length; i++) 
         {
-            coordinate.x = 16;
-            coordinate.y = -3;
+            towerCoordinate = gridManager.GetCoordinatesFromPosition(towers[i].transform.position);
+            float distance =
+                Mathf.Sqrt(
+                    Mathf.Pow(GetStartCoordinates().x - towerCoordinate.x, 2) +
+                    Mathf.Pow(GetStartCoordinates().y - towerCoordinate.y, 2)
+                );
+
+            if (distance < closestDistance)
+            {
+                closestDistance = distance;
+                closestCoordinates = towerCoordinate;
+            }
         }
-        transform.position = gridManager.GetPositionFromCoordinates(coordinate);
+
+        return closestCoordinates;
     }
 
     private IEnumerator MoveOnPath()
     {
-        for (int i = 1; i < path.Count; i++)
+        foreach (Node node in path)
         {
             Vector3 startPosition = transform.position;
-            Vector3 endPosition = gridManager.GetPositionFromCoordinates(path[i].coordinates);
+            Vector3 endPosition = gridManager.GetPositionFromCoordinates(node.coordinates);
             float travelPercent = 0f;
 
             transform.LookAt(endPosition);
@@ -73,35 +113,31 @@ public class BoomerMover : MonoBehaviour
 
     private void FinishPath()
     {
-        pathFinder.NotifyReceiver();
         gameObject.SetActive(false);
-        //DestroyTower();      
+        DestroyTower();
     }
 
-    //void DestroyTower()
-    //{
-    //    Vector2Int[] addresses = { path.Last().Coordinates + Vector2Int.left,
-    //                             path.Last().Coordinates + Vector2Int.up,
-    //                             path.Last().Coordinates + Vector2Int.right,
-    //                             path.Last().Coordinates + Vector2Int.down,
-    //                             path.Last().Coordinates + Vector2Int.up + Vector2Int.left,
-    //                             path.Last().Coordinates + Vector2Int.up + Vector2Int.right,
-    //                             path.Last().Coordinates + Vector2Int.down + Vector2Int.left,
-    //                             path.Last().Coordinates + Vector2Int.down + Vector2Int.right};
-    //    //Debug.Log(path.Last().Coordinates);
-    //    Tower[] towers = FindObjectsOfType<Tower>();
+    void DestroyTower()
+    {
+        Vector3[] addresses = { 
+            transform.position,
+            transform.position + (Vector3.left * 10),
+            transform.position + (Vector3.back * 10),
+            transform.position + (Vector3.right * 10),
+            transform.position + (Vector3.forward * 10),};
 
-    //    foreach (Vector2Int address in addresses)
-    //    {
-    //        //Debug.Log(address);
-    //        foreach (Tower tower in towers)
-    //        {
-    //            Debug.Log(tower.Address);
-    //            if (tower.Address == address) Destroy(tower.gameObject);
-    //        }    
-    //    }
+        Tower[] towers = FindObjectsOfType<Tower>();
 
-    //    Array.Clear(towers, 0, towers.Length);
-    //    Array.Clear(addresses, 0, addresses.Length);
-    //}
+        foreach (Vector3 address in addresses)
+        {
+            foreach (Tower tower in towers)
+            {
+                if (tower.transform.position == address)
+                {
+                    tower.SpawnParticle();
+                    Destroy(tower.gameObject);
+                }
+            }
+        }
+    }
 }

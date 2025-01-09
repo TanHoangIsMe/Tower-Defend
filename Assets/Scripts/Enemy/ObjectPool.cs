@@ -9,6 +9,7 @@ public class ObjectPool : MonoBehaviour
     [SerializeField] [Range(0,30)] int leftRamPoolSize = 5;
     [SerializeField] [Range(0, 30)] int rightRamPoolSize = 8;
     [SerializeField] [Range(0.1f,20f)] float ramSpawnTime = 3.0f;
+    [SerializeField] [Range(0.1f, 20f)] float boomerSpawnTime = 6.0f;
 
     GameObject[] leftRamPool;
     GameObject[] rightRamPool;
@@ -41,10 +42,12 @@ public class ObjectPool : MonoBehaviour
 
         leftBoomer = Instantiate(boomerPrefab, transform);
         leftBoomer.GetComponent<BoomerMover>().IsLeft = true;
+        leftBoomer.GetComponent <BoomerMover>().CanStart = true;
         leftBoomer.SetActive(false);
 
         rightBoomer = Instantiate(boomerPrefab, transform);
         rightBoomer.GetComponent<BoomerMover>().IsLeft = false;
+        rightBoomer.GetComponent<BoomerMover>().CanStart = true;
         rightBoomer.SetActive(false);
     }
 
@@ -53,6 +56,10 @@ public class ObjectPool : MonoBehaviour
     {
         StartCoroutine(SpawnRam(leftRamPool, leftRamPoolSize));
         StartCoroutine(SpawnRam(rightRamPool, rightRamPoolSize));
+    }
+
+    public void StartBoomerPhase()
+    {
         StartCoroutine(SpawnBoomer(leftBoomer));
         StartCoroutine(SpawnBoomer(rightBoomer));
     }
@@ -71,7 +78,7 @@ public class ObjectPool : MonoBehaviour
         while (true)
         {
             EnableBoomer(boomer);
-            yield return new WaitForSeconds(ramSpawnTime);
+            yield return new WaitForSeconds(boomerSpawnTime);
         }
     }
 
@@ -89,7 +96,7 @@ public class ObjectPool : MonoBehaviour
 
     private void EnableBoomer(GameObject boomer)
     {
-        if (boomer.activeInHierarchy == false)
+        if (boomer.activeInHierarchy == false && FindObjectOfType<Tower>() != null)
         {
             boomer.SetActive(true);
             return;
